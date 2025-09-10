@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Gestion des Rendez-vous</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <div class="max-w-5xl mx-auto py-8 px-4">
+    <h1 class="text-3xl font-bold text-center mb-6">📅 Gestion des Rendez-vous</h1>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, msg in messages %}
+          <div class="mb-4 p-3 rounded-md text-white {% if category == 'danger' %}bg-red-500{% else %}bg-green-500{% endif %}">
+            {{ msg }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="flex justify-end mb-4">
+      <a href="{{ url_for('new_appointment') }}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">
+        + Ajouter un Rendez-vous
+      </a>
+    </div>
+
+    <div class="overflow-x-auto bg-white rounded-lg shadow">
+      <table class="min-w-full text-left">
+        <thead class="bg-gray-100 text-gray-700">
+          <tr>
+            <th class="px-4 py-2">ID</th>
+            <th class="px-4 py-2">Client</th>
+            <th class="px-4 py-2">Date</th>
+            <th class="px-4 py-2">Heure</th>
+            <th class="px-4 py-2">Service</th>
+            <th class="px-4 py-2 text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for a in appointments %}
+          <tr class="border-b hover:bg-gray-50">
+            <td class="px-4 py-2">{{ a.id }}</td>
+            <td class="px-4 py-2">{{ a.client_name }}</td>
+            <td class="px-4 py-2">{{ a.date }}</td>
+            <td class="px-4 py-2">{{ a.time }}</td>
+            <td class="px-4 py-2">{{ a.service }}</td>
+            <td class="px-4 py-2 text-center space-x-2">
+              <a href="{{ url_for('edit_appointment', appointment_id=a.id) }}" 
+                 class="text-sm bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-md">Modifier</a>
+              <form action="{{ url_for('delete_appointment', appointment_id=a.id) }}" method="post" class="inline">
+                <button type="submit" onclick="return confirm('Supprimer ce rendez-vous ?')" 
+                        class="text-sm bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md">Supprimer</button>
+              </form>
+            </td>
+          </tr>
+          {% else %}
+          <tr>
+            <td colspan="6" class="px-4 py-4 text-center text-gray-500">Aucun rendez-vous.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>{{ action }} Rendez-vous</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  <div class="max-w-lg mx-auto py-10 px-4">
+    <h1 class="text-3xl font-bold text-center mb-6">{{ action }} Rendez-vous</h1>
+
+    <form method="post" class="bg-white p-6 rounded-lg shadow space-y-4">
+      <div>
+        <label class="block text-sm font-medium mb-1">Nom du client</label>
+        <input name="client_name" type="text" required value="{{ appointment.client_name if appointment else '' }}"
+               class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">Date</label>
+        <input name="date" type="date" required value="{{ appointment.date if appointment else '' }}"
+               class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">Heure</label>
+        <input name="time" type="time" required value="{{ appointment.time if appointment else '' }}"
+               class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+      </div>
+
+      <div>
+        <label class="block text-sm font-medium mb-1">Service</label>
+        <input name="service" type="text" required value="{{ appointment.service if appointment else '' }}"
+               class="w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+      </div>
+
+      <div class="flex justify-between items-center">
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md">{{ action }}</button>
+        <a href="{{ url_for('index') }}" class="text-gray-600 hover:text-gray-800">Annuler</a>
+      </div>
+    </form>
+  </div>
+</body>
+</html>
