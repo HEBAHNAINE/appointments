@@ -14,7 +14,6 @@ def get_connection():
         port="5432"
     )
 
-# Home: lister tous les rendez-vous
 @app.route("/")
 def index():
     conn = get_connection()
@@ -25,7 +24,6 @@ def index():
     conn.close()
     return render_template("list.html", appointments=appointments)
 
-# Nouveau rendez-vous (formulaire)
 @app.route("/appointments/new", methods=["GET", "POST"])
 def new_appointment():
     if request.method == "POST":
@@ -48,7 +46,6 @@ def new_appointment():
 
     return render_template("form.html", appointment=None, action="Create")
 
-# Edit rendez-vous
 @app.route("/appointments/<int:appointment_id>/edit", methods=["GET", "POST"])
 def edit_appointment(appointment_id):
     conn = get_connection()
@@ -70,7 +67,7 @@ def edit_appointment(appointment_id):
         flash("Rendez-vous modifié !", "success")
         return redirect(url_for("index"))
 
-    # GET -> récupérer l'enregistrement pour préremplir le formulaire
+    
     cur.execute("SELECT * FROM appointments WHERE id=%s", (appointment_id,))
     appointment = cur.fetchone()
     cur.close()
@@ -80,7 +77,7 @@ def edit_appointment(appointment_id):
         return redirect(url_for("index"))
     return render_template("form.html", appointment=appointment, action="Edit")
 
-# Delete rendez-vous
+
 @app.route("/appointments/<int:appointment_id>/delete", methods=["POST"])
 def delete_appointment(appointment_id):
     conn = get_connection()
